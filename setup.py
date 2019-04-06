@@ -11,11 +11,11 @@ with open('README.rst') as readme_file:
 with open('HISTORY.rst') as history_file:
     history = history_file.read()
 
-requirements = ['Click>=6.0', ]
+requirements = []
 
-setup_requirements = ['pytest-runner', ]
+setup_requirements = ['pytest-runner']
 
-test_requirements = ['pytest', ]
+test_requirements = ['pytest']
 
 setup(
     author="Collin Meyers",
@@ -35,9 +35,7 @@ setup(
     ],
     description="A collection of utilities for turning lists of dicts into nicely formatted plain text tables.",
     entry_points={
-        'console_scripts': [
-            'pretty_table_printer=pretty_table_printer.cli:main',
-        ],
+        'console_scripts': ['pretty_table_printer=pretty_table_printer.cli:main']
     },
     install_requires=requirements,
     license="MIT license",
