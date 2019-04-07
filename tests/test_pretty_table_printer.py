@@ -137,13 +137,15 @@ class TestCleanHeaders:
         assert ['sum_wombats'] == list(clean_headers(headers))
 
 
-# class TestGuessRowCollection:
-#     def test_it_handles_count(self):
-#         rows = [
-#             {'id': 1, 'count(distinct barcode)': 27596962761},
-#             {'id': 2, 'count(distinct barcode)': 77},
-#         ]
-#         actual = guess_row_collection(rows)
-#         actual.append(rows[0])
-#         full_str = str(actual)
-#         breakpoint()
+class TestGuessRowCollection:
+    def test_it_handles_count(self):
+        rows = [{'id': 1, 'count(distinct barcode)': 27596962761}]
+        row_collection = guess_row_collection(rows)
+        row_collection.append(rows[0])
+        expected = """\
+| id | count_distinct_barcode |
+| -- | ---------------------- |
+| 1  | 27,596,962,761         |
+| -- | ---------------------- |\
+"""
+        assert expected == str(row_collection)
