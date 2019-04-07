@@ -133,15 +133,9 @@ def get_max_width_of_items(items, with_commas=False):
 
 def clean_headers(headers):
     for header in headers:
-        function_header = re.search(r'(\w+)\((.*)\)', header)
-        if header == 'count(*)':
-            new_header = 'count'
-        elif function_header:
-            function_name = function_header.group(1)
-            function_args = function_header.group(2).replace(' ', '_')
-            new_header = function_name + '_' + function_args
-        else:
-            new_header = header
+        new_header = header.replace('(*)', '')
+        new_header = re.sub(r'\W', '_', header)
+        new_header = new_header.strip('_')
         yield new_header
 
 

@@ -149,3 +149,15 @@ class TestGuessRowCollection:
 | -- | ---------------------- |\
 """
         assert expected == str(row_collection)
+
+    def test_it_handles_column_names_with_question_marks(self):
+        rows = [{'one?': 1}]
+        row_collection = guess_row_collection(rows)
+        row_collection.append(rows[0])
+        expected = """\
+| one |
+| --- |
+| 1   |
+| --- |\
+"""
+        assert expected == str(row_collection)
