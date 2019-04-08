@@ -17,6 +17,7 @@ from pretty_table_printer import (
     pretty_money,
     guess_row_collection,
     clean_headers,
+    should_be_formatted_with_commas,
 )
 
 
@@ -137,6 +138,30 @@ class TestCleanHeaders:
         assert ['sum_wombats'] == list(clean_headers(headers))
 
 
+class TestShouldBeFormattedWithCommas:
+    def test_it_formats_count_columns_with_commas(self):
+        assert should_be_formatted_with_commas('count(*)') is True
+        assert should_be_formatted_with_commas('count_this_thing') is True
+        assert should_be_formatted_with_commas('this_thing_count') is True
+
+    def test_it_formats_sum_columns_with_commas(self):
+        assert should_be_formatted_with_commas('sum(*)') is True
+        assert should_be_formatted_with_commas('sum_this_thing') is True
+        assert should_be_formatted_with_commas('this_thing_sum') is True
+
+    def test_it_formats_total_columns_with_commas(self):
+        assert should_be_formatted_with_commas('total') is True
+        assert should_be_formatted_with_commas('total_this_thing') is True
+        assert should_be_formatted_with_commas('total_groups') is True
+        assert should_be_formatted_with_commas('this_thing_total') is True
+
+    def test_it_formats_columns_that_end_with_s_with_commas(self):
+        assert should_be_formatted_with_commas('groups') is True
+
+    def test_it_formats_knows_when_not_to_format_with_commas(self):
+        assert should_be_formatted_with_commas('zcountz(*)') is False
+
+
 class TestGuessRowCollection:
     def test_it_handles_count(self):
         rows = [{'id': 1, 'count(distinct barcode)': 27596962761}]
@@ -149,6 +174,19 @@ class TestGuessRowCollection:
 | -- | ---------------------- |\
 """
         assert expected == str(row_collection)
+
+    def test_it_handles_plural_integers(self):
+        rows = [{'id': 1, 'groups': 27596962761}]
+        row_collection = guess_row_collection(rows)
+        row_collection.append(rows[0])
+        expected = """\
+| id | groups         |
+| -- | -------------- |
+| 1  | 27,596,962,761 |
+| -- | -------------- |\
+"""
+        actual = str(row_collection)
+        assert expected == actual
 
     def test_it_handles_column_names_with_question_marks(self):
         rows = [{'one?': 1}]

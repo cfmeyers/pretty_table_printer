@@ -15,4 +15,5 @@ from .pretty_table_printer import (
     pretty_int,
     guess_row_collection,
     clean_headers,
+    should_be_formatted_with_commas,
 )
