@@ -93,7 +93,7 @@ class RowCollection:
 
 
 def pretty_date(d: datetime) -> str:
-    if d is None:
+    if d == NULL_CHAR or d is None:
         return NULL_CHAR.center(19)
     hours_minutes_seconds = d.strftime('%H:%M:%S')
     pretty = d.strftime(f'%Y-%m-%d {hours_minutes_seconds}')

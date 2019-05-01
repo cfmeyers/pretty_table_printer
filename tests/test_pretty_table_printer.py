@@ -107,6 +107,7 @@ class TestPrettyDate:
 
     def test_it_returns_null_char_if_none(self):
         assert '         ∅         ' == pretty_date(None)
+        assert '         ∅         ' == pretty_date('∅')
 
 
 class TestPrettyMoney:
