@@ -8,6 +8,9 @@ from decimal import Decimal
 import re
 
 
+NULL_CHAR = '∅'
+
+
 class ColumnSpec:
     def __init__(self, name, width=10, func=lambda x: x):
         self.name = name
@@ -17,7 +20,7 @@ class ColumnSpec:
 
     def transform(self, item):
         if item is None:
-            item = '∅'
+            item = NULL_CHAR
         transformed = self.func(item)
         if type(transformed) != str:
             transformed = str(transformed)
@@ -90,6 +93,8 @@ class RowCollection:
 
 
 def pretty_date(d: datetime) -> str:
+    if d is None:
+        return NULL_CHAR.center(19)
     hours_minutes_seconds = d.strftime('%H:%M:%S')
     pretty = d.strftime(f'%Y-%m-%d {hours_minutes_seconds}')
     return pretty.ljust(19)

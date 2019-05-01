@@ -101,9 +101,12 @@ class TestRowCollection:
 
 
 class TestPrettyDate:
-    def test_it_returns_readable_string_for_datetime_ojbect(self):
+    def test_it_returns_readable_string_for_datetime_object(self):
         some_sunday = datetime(2019, 3, 10, 15, 27, 34, 18)
         assert '2019-03-10 15:27:34' == pretty_date(some_sunday)
+
+    def test_it_returns_null_char_if_none(self):
+        assert '         ∅         ' == pretty_date(None)
 
 
 class TestPrettyMoney:
